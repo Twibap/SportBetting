@@ -1,0 +1,28 @@
+{
+  "name": "sport-betting",
+  "version": "1.0.0",
+  "description": "Sport betting with smart contract",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Twibap/SportBetting.git"
+  },
+  "keywords": [
+    "solidity"
+  ],
+  "author": "Twibap",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Twibap/SportBetting/issues"
+  },
+  "homepage": "https://github.com/Twibap/SportBetting#readme",
+  "dependencies": {
+    "openzeppelin-solidity": "1.11.0"
+  }
+}

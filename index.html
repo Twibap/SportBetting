@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>CryptoBet front-end</title>
+
+    <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script language="javascript" type="text/javascript" src="web3.min.js"></script>
+    <script language="javascript" type="text/javascript" src="wager_abi.js"></script>
+
+	<!-- 합쳐지고 최소화된 최신 CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+	<!-- 부가적인 테마 -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+	<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+  </head>
+  <body>
+
+	<div class="row">
+		<div class="col-md-3"></div>
+		<div class="col-md-6">
+			<div class="page-header">
+				<h1>Crypto Bet <small>스마트 컨트랙으로 즐기는 배팅</small></h1>
+			</div>
+		</div>
+		<div class="col-md-3"></div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-3"></div>
+		<div class="col-md-6">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<h3 class="panel-title">오늘의 경기</h3>
+				</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-sm-6 col-md-4">
+							<div class="thumbnail">
+								<img src="..." alt="...">
+								<div class="caption">
+									<h3>Thumbnail label</h3>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4">
+							vs
+						</div>
+						<div class="col-sm-6 col-md-4">
+							<div class="thumbnail">
+								<img src="..." alt="...">
+								<div class="caption">
+									<h3>Thumbnail label</h3>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3"></div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-3"></div>
+		<div class="col-md-6">
+			<div class="row">
+				<div class="col-md-4">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">승</h3>
+					</div>
+					<div class="panel-body">
+						<div id="percent-win">00 %</div>
+					</div>
+				</div>
+				</div>
+				<div class="col-md-4">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">무</h3>
+					</div>
+					<div class="panel-body">
+						<div id="percent-draw">00 %</div>
+					</div>
+				</div>
+				</div>
+				<div class="col-md-4">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">패</h3>
+					</div>
+					<div class="panel-body">
+						<div id="percent-lose">00 %</div>
+					</div>
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3"></div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-3"></div>
+		<div class="col-md-6">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<div class="panel-title">제한시간 
+						<a><small id="tip-timelimit" data-container="body" 
+							data-toggle="popover" 
+							data-placement="right" 
+					  	   data-content="제한시간 이전에 블록에 포함된 트랜잭션만 인정됩니다. 이후에 체결된 이더리움은 반환됩니다.">
+	   						<span class="label label-default">Tip</span></small></a></div>
+				</div>
+				<div class="panel-body">기능 추가 예정</div>
+			</div>
+		</div>
+		<div class="col-md-3"></div>
+	</div>
+	
+	<div class="row">
+		<div class="col-md-3"></div>
+		<div class="col-md-6">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<h3 class="panel-title">Account</h3>
+				</div>
+				<div class="panel-body">
+					어카운트 주소 표시
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3"></div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-3"></div>
+		<div class="col-md-6">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<h3 class="panel-title">Balance</h3>
+				</div>
+				<div class="panel-body">
+					계좌 잔고 표시
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3"></div>
+	</div>
+
+
+		<div class="row">
+			<div class="col-md-4"></div>
+			<div class="col-md-4">
+				<div class="well">
+					<div class="btn-group btn-group-justified" data-toggle="buttons">
+						<label class="btn btn-primary">
+							<input type="radio" name="options" id="option1" autocomplete="off"> 승
+						</label>
+						<label class="btn btn-primary active">
+							<input type="radio" name="options" id="option2" autocomplete="off" checked> 무
+						</label>
+						<label class="btn btn-primary">
+							<input type="radio" name="options" id="option3" autocomplete="off"> 패
+						</label>
+					</div>
+
+					<div class="input-group">
+						<input id="amount" type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+						<span class="input-group-addon">Ether</span>
+					</div>
+
+					<button id="btBetting" type="button" class="btn btn-primary btn-block">베팅하기</button>
+				</div>
+			</div>
+			<div class="col-md-4"></div>
+		</div>
+
+		<!-- Modal -->
+		<div id="modalMetamask" class="modal fade">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">Modal title</h4>
+					</div>
+					<div class="modal-body">
+						<p>One fine body&hellip;</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary">Save changes</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+
+    <script>
+      var cryptoBet;
+      var userAccount;
+      var userBalance;
+
+	  function startApp() {
+		  var cryptoBetAddress = "0xe6adb196c994f3d2f3a88f7d0c4a9dd161e2a7f7";
+		  cryptoBet = new web3js.eth.Contract(wagerABI, cryptoBetAddress);
+
+		  var count = 0;
+		  var accountInterval = setInterval(function() {
+			  count++;
+			  $("#amount").text(count);
+
+			  // 계정이 바뀌었는지 확인
+			  if (web3.eth.accounts[0] !== userAccount) {
+				  userAccount = web3.eth.accounts[0];
+				  userBalance = web3.eth.betBalance(
+					  web3.fromWei(
+						  web3.eth.getBalance(userAccount)));
+				  // 새 계정에 대한 UI로 업데이트하기 위한 함수 호출
+				  getZombiesByOwner(userAccount)
+					  .then(displayZombies);
+
+				  var textAccount = "Account : "+userAccount;
+				  var textBalance = "Balance : "+userBalance;
+				  $("#account").text(textAccount);
+				  $("#balance").text(textBalance);
+			  }
+		  }, 100);
+
+		  // 여기서 시작하게.
+	  }
+
+	  var count = 0;
+	  function btClick(){
+		  $("#percent-win").text(count);
+		  count++;
+	  }
+
+	  $("#btBetting").click(function(){
+	  });
+
+	  $('#tip-timelimit').popover();
+
+      function betting(game_result) {
+        $("#txStatus").text("배팅하는 중...");
+        return CryptoZombies.methods.levelUp(zombieId)
+        .send({ from: userAccount, value: web3.utils.toWei("0.001") })
+        .on("receipt", function(receipt) {
+          $("#txStatus").text("압도적인 힘! 좀비가 성공적으로 레벨업했습니다.");
+        })
+        .on("error", function(error) {
+          $("#txStatus").text(error);
+        });
+      }
+
+      window.addEventListener('load', function() {
+
+        // Web3가 브라우저에 주입되었는지 확인(Mist/MetaMask)
+        if (typeof web3 !== 'undefined') {
+          // Mist/MetaMask의 프로바이더 사용
+          web3js = new Web3(web3.currentProvider);
+        } else {
+          // 사용자가 Metamask를 설치하지 않은 경우에 대해 처리
+          // 사용자들에게 Metamask를 설치하라는 등의 메세지를 보여줄 것
+
+			// Metamask 소개 
+			$("#modalMetamask").modal();
+        }
+
+        // 이제 자네 앱을 시작하고 web3에 자유롭게 접근할 수 있네:
+        startApp()
+
+      })
+    </script>
+  </body>
+</html>
+
